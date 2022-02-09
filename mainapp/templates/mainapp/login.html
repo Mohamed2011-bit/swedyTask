@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+          <link rel="stylesheet" href="{% static 'css/jquery.notifyBar.css' %}">
+
+	<title>Login</title>
+
+<style>
+body{
+  font-family: Arial, Helvetica, sans-serif;
+}
+.container {
+    width: 1170px;
+    margin: 0 auto;
+}
+.lds-dual-ring.hidden {
+display: none;
+}
+
+.lds-dual-ring {
+display: inline-block;
+width: 80px;
+height: 80px;
+}
+
+.lds-dual-ring:after {
+content: " ";
+display: block;
+width: 64px;
+height: 64px;
+margin: 5% auto;
+border-radius: 50%;
+border: 6px solid #fff;
+border-color: #fff transparent #fff transparent;
+animation: lds-dual-ring 1.2s linear infinite;
+position: absolute;
+top: 30%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+@keyframes lds-dual-ring {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+}
+
+.overlay {
+position: fixed !important;
+top: 0;
+left: 0;
+width: 100%;
+height: 100vh;
+background: rgba(0, 0, 0, .8);
+z-index: 999 !important;
+opacity: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.5s;
+}
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.row.align-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.col-6 {
+    width: 50%;
+    padding: 0 15px;
+}
+h1.text-center.mb-3 {
+    text-align: center;
+    margin: 0px;
+    padding: 30px 0;
+    background: #05AA6D;
+    border-radius: 10px 10px 0 0;
+    color: #fff;
+}
+.form-card-wrap {
+    box-shadow: 0 0 4px #cccccc8c;
+    border-radius: 10px;
+}
+#LoginFormTestCentre {
+    padding: 50px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+#password, input#email {
+    padding: 0 15px;
+    outline: none;
+}
+#password {
+    width: 93.9%;
+}
+input#email {
+  width: 100%;
+}
+.form-group input {
+    margin-top: 15px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #000;
+}
+.position-relative.with_icon {
+    position: relative;
+}
+.eye-icon {
+    position: absolute;
+    right: 5px;
+    top: 29px;
+}
+.fa-eye-slash:before {
+    content: "\f070";
+}
+.fa-eye:before {
+    content: "\f06e";
+}
+button.btn {
+    font-size: 16px;
+    line-height: 25px;
+    padding: 10px 50px;
+    background: #05aa6d;
+    border: 2px solid #05aa6d;
+    border-radius: 5px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+button.btn:hover {
+    background: transparent;
+    color: #05aa6d;
+    transition: 0.3s all ease-in-out 0.3s;
+}
+.form-group a {
+    color: #000;
+}
+
+
+.lds-dual-ring.hidden { 
+display: none;
+}
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.sidebar-menu .menu-item a img {
+    margin-right: 5px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 5% auto;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,.8);
+    z-index: 999;
+    opacity: 1;
+    display: flex;
+    align-items: center;   
+    justify-content: center;
+    transition: all 0.5s;
+}
+      </style>
+</head>
+<body>
+    <div id="loader" class="lds-dual-ring hidden overlay"></div>
+	<div class="longin-form">
+		<div id="loader" class="lds-dual-ring hidden overlay"></div>
+		<div class="login-wrap">
+			<div class="container">
+				<div class="row align-center">
+					<div class="col-6">
+						<div class="form-card-wrap">
+							<h1 class="text-center mb-3">Login</h1>
+							<form id="LoginFormTestCentre" method="POST">{% csrf_token %}
+                                <div class="form-group">
+                                    <label><strong>Username</strong></label>
+                                    <input type="text" class="form-control" value="" id="username" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Password</strong></label>
+                                    <div class="position-relative with_icon">
+                                      <input type="password" class="form-control" value="" id="password" required="required">
+                                       <span class="eye-icon"><i class="fa fa-eye" id="toggle_pwd"></i></span>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                                    <div class="form-group">
+                                        <a href="#">Forgot Password?</a>
+                                    </div>
+                                </div> -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                                </div>
+                            </form>
+                             <div class="new-account mt-3">
+                                <p>Don't have an account? <a class="text-primary" href="{% url 'register-page' %}"> Sign up</a></p>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</div>
+
+<!-- Script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/jquery.notifyBar.js' %}"> </script>
+
+
+	<script type="text/javascript">
+        $(function () {
+            $("#toggle_pwd").click(function () {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+               var type = $(this).hasClass("fa-eye-slash") ? "text" : "password";
+                $("#password").attr("type", type);
+            });
+        });
+    </script>
+    <script type="text/javascript">
+           $('#LoginFormTestCentre').on('submit', function(e){
+          var csrf_token =$('input[name="csrfmiddlewaretoken"]').val()
+         e.preventDefault();
+           $.ajax({
+                type : "POST", 
+                url: "/login",
+                data: {
+                 csrfmiddlewaretoken: csrf_token,
+                 username : $('#username').val(),
+                 password : $('#password').val(),
+                 dataType: "json",
+         
+                },
+                    beforeSend: function() {
+        $('#loader').removeClass('hidden')
+     },
+                
+                success: function(data){
+                  if (data.status == true) {
+                    $.notifyBar({ cssClass: "success",  html: data.msg,close: true, waitingForClose: false,  });
+
+                    setTimeout(function () {
+                    window.location.href = "/index"
+                }, 1000);
+                  }
+                    else{
+                    $.notifyBar({ cssClass: "error",  html: data.msg,close: true, waitingForClose: false,  });
+                  }
+                },
+         
+                failure: function() {
+                    
+                },
+                         complete: function(){
+        $('#loader').addClass('hidden')
+    },
+         
+         
+            });
+         
+         
+                 });    
+    </script>
+</body>
+</html>
